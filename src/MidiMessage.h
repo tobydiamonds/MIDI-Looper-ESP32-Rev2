@@ -27,152 +27,18 @@ enum MidiType
     SystemReset = 0xFF,          ///< System Real Time - System Reset
 };
 
-class MidiMessage
+struct MidiMessage
 {
-private:
-    byte _data[3] = {0, 0, 0};
-    int _index;
+    byte Type;
+    byte Data1;
+    byte Data2;
 
-public:
-    byte Channel;
-    //MidiType Type;
-    byte bType;
-    byte Length;
-    bool IsSet;
-
-    MidiMessage(byte channel, byte type)
+    MidiMessage()
     {
-        Channel = channel;
-        //Type = type;
-        bType = type;
-        Length = 0;
-        _data[0] = type;
-        _data[1] = 0x00;
-        _data[2] = 0x00;
-        _index = 1;
-        IsSet = false;
-    }
-
-    //virtual void AddData(byte data) = 0;
-    void AddData(byte data)
-    {
-        if (_index > 0 && _index < 3)
-            _data[_index++] = data;
-    }
-
-    byte GetData(byte index)
-    {
-        if (index >= 0 && index < Length)
-        {
-            return _data[index];
-        }
-        return -1;
-    }
-};
-/*
-class DefaultMidiMessage : public MidiMessage
-{
-public:
-    DefaultMidiMessage(byte channel, MidiType type) : MidiMessage(channel, type)
-    {
-    }
-
-    void AddData(byte data)
-    {
+        Type = 0x00;
+        Data1 = 0x00;
+        Data2 = 0x00;
     }
 };
 
-class NoteOnMessage : public MidiMessage
-{
-private:
-    int _index = 0;
-
-public:
-    byte Note;
-    byte Velocity;
-
-    NoteOnMessage(byte channel) : MidiMessage(channel, MidiType::NoteOn)
-    {
-        Note = 0;
-        Velocity = 0;
-    }
-
-    void AddData(byte data)
-    {
-        if (_index == 0)
-        {
-            Note = data;
-            _index++;
-        }
-
-        if (_index == 1)
-        {
-            Velocity = data;
-            _index++;
-        }
-    }
-};
-
-class NoteOffMessage : public MidiMessage
-{
-private:
-    int _index = 0;
-
-public:
-    byte Note;
-    byte Velocity;
-
-    NoteOffMessage(byte channel) : MidiMessage(channel, MidiType::NoteOff)
-    {
-        Note = 0;
-        Velocity = 0;
-    }
-
-    void AddData(byte data)
-    {
-        if (_index == 0)
-        {
-            Note = data;
-            _index++;
-        }
-
-        if (_index == 1)
-        {
-            Velocity = data;
-            _index++;
-        }
-    }
-};
-
-class CCMidiMessage : public MidiMessage
-{
-private:
-    int _index = 0;
-
-public:
-    byte CC;
-    byte Value;
-
-    CCMidiMessage(byte channel) : MidiMessage(channel, MidiType::ControlChange)
-    {
-        CC = 0;
-        Value = 0;
-    }
-
-    void AddData(byte data)
-    {
-        if (_index == 0)
-        {
-            CC = data;
-            _index++;
-        }
-
-        if (_index == 1)
-        {
-            Value = data;
-            _index++;
-        }
-    }
-};
-*/
 #endif

@@ -18,10 +18,10 @@ private:
     {
         byte type = status & 0xF0; // remove the channel information
         //MidiType mt = static_cast<MidiType>(type);
-        byte channel = status & 0x0F;
+        //byte channel = status & 0x0F;
         MidiMessage *message;
-        message = new MidiMessage(channel, type);
-        message->bType = type;
+        message = new MidiMessage();
+        message->Type = type;
         // switch (mt)
         // {
         // case MidiType::NoteOn:
@@ -39,6 +39,8 @@ private:
         // }
         return message;
     }
+
+public:    
     int ExpectedMessageLength(byte type)
     {
         switch (type)
@@ -85,7 +87,7 @@ private:
 
     //callback_function MessageBuild;
 
-public:
+
     void (*MessageBuild)(int inputidx, MidiMessage *) = 0;
 
     // MidiMessageBuilder(callback_function callback)
@@ -129,7 +131,7 @@ public:
                 // Serial.print(" channel=");
                 // Serial.print(_currentMessage->Channel);
 
-                _expectedMessageLength = ExpectedMessageLength(_currentMessage->bType);
+                _expectedMessageLength = ExpectedMessageLength(_currentMessage->Type);
 
                 // Serial.print(" expected length=");
                 // Serial.println(_expectedMessageLength);
@@ -155,17 +157,22 @@ public:
             // Serial.print(_currentMessageDataIndex);
             // Serial.print(" value=");
             // Serial.println(data);
-            _currentMessage->AddData(data);
+            if (_currentMessageDataIndex == 0)
+                _currentMessage->Data1 = data;
+            if (_currentMessageDataIndex == 1)
+                _currentMessage->Data2 = data;
             _currentMessageDataIndex++;
         }
         else if (_currentMessage == 0 && _prevMessage != 0 && !_buildingMessage)
         {
             // running status - the next message arrived - this is of same type as the current message - create a similar message and reset counters
-            _currentMessage = new MidiMessage(_prevMessage->Channel, _prevMessage->bType);
-            _prevMessage = 0;
-            _expectedMessageLength = ExpectedMessageLength(_currentMessage->bType);
+            _currentMessage = new MidiMessage();
+            _currentMessage->Type = _prevMessage->Type;
+            delete _prevMessage;
+            _prevMessage = NULL;
+            _expectedMessageLength = ExpectedMessageLength(_currentMessage->Type);
             _currentMessageDataIndex = 0;
-            _currentMessage->AddData(data);
+            _currentMessage->Data1 = data;
             _currentMessageDataIndex++;
             _buildingMessage = true;
         }
@@ -173,15 +180,12 @@ public:
         // handle last message from input stream
         if (_currentMessage != 0 && _buildingMessage && (_expectedMessageLength == -1 || _expectedMessageLength - 1 == _currentMessageDataIndex))
         {
-            _currentMessage->Length = _currentMessageDataIndex + 1;
-            // Serial.print("#completing message: length=");
-            // Serial.println(_currentMessage->Length);
-
             //MidiParserService::MessageBuild(_currentMessage);
             MessageBuild(inputidx, _currentMessage);
-            _prevMessage = new MidiMessage(_currentMessage->Channel, _currentMessage->bType);
-
-            _currentMessage = 0;
+            _prevMessage = new MidiMessage();
+            _prevMessage->Type = _currentMessage->Type;
+            delete _currentMessage;
+            _currentMessage = NULL;
             _currentMessageDataIndex = 0;
             _expectedMessageLength = 0;
             _buildingMessage = false;

@@ -8,6 +8,7 @@
             "includePath": [
                 "c:/Workspaces/MIDI Looper ESP32 Rev2/include",
                 "c:/Workspaces/MIDI Looper ESP32 Rev2/src",
+                "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/config",
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/app_trace",
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/app_update",
@@ -97,7 +98,6 @@
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
-                "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "C:/Users/tk/.platformio/packages/tool-unity",
                 ""
             ],
@@ -106,6 +106,7 @@
                 "path": [
                     "c:/Workspaces/MIDI Looper ESP32 Rev2/include",
                     "c:/Workspaces/MIDI Looper ESP32 Rev2/src",
+                    "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/config",
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/app_trace",
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/app_update",
@@ -195,7 +196,6 @@
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
-                    "C:/Users/tk/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "C:/Users/tk/.platformio/packages/tool-unity",
                     ""
                 ]
